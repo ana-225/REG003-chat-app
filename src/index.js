@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const express = require('express');
 const { Client } = require('pg');
+const routes = require('./routes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,21 +22,24 @@ client.connect((err) => {
     console.log('BD conectada');
   }
 
-  client
-    .query('SELECT * FROM public."table"')
-    .then((response) => {
-      console.log(response.rows);
-      client.end();
-    })
-    .catch(() => {
-      client.end();
-    });
+  // client
+  //   .query('SELECT * FROM public.""')
+  //   .then((response) => {
+  //     console.log(response.rows);
+  //     client.end();
+  //   })
+  //   .catch(() => {
+  //     client.end();
+  //   });
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// Link to Routes
+routes(app, (err) => {
+  if (err) {
+    throw err;
+  }
 
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+  app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+  });
 });
