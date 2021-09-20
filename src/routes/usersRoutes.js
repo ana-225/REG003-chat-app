@@ -8,7 +8,7 @@
 //   requireAdmin,
 // } = require('../middleware/auth');
 
-const { getUsers } = require('../controller/usersController');
+const { getUsers, createUsers } = require('../controller/usersController');
 
 // const initAdminUser = (app, next) => {
 //   const { adminEmail, adminPassword } = app.get('config');
@@ -109,7 +109,7 @@ module.exports = (app, next) => {
    */
   // app.post('/users', requireAdmin, (req, resp, next) => {
   // });
-  // app.post('/users', requireAdmin, newUser);
+  app.post('/users', createUsers);
   /**
    * @name PUT /users
    * @description Modifica una usuaria
