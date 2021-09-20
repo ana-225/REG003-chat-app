@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 // const User = require('../models/user');
 
@@ -8,50 +8,45 @@ const bcrypt = require('bcrypt');
 //   requireAdmin,
 // } = require('../middleware/auth');
 
-// const {
-//   getUsers,
-//   getOneUser,
-//   newUser,
-//   deleteOneUser,
-//   updateUser,
-// } = require('../controller/users');
+const { getUsers } = require('../controller/users');
 
-const initAdminUser = (app, next) => {
-  const { adminEmail, adminPassword } = app.get('config');
-  if (!adminEmail || !adminPassword) {
-    return next();
-  }
+// const initAdminUser = (app, next) => {
+//   const { adminEmail, adminPassword } = app.get('config');
+//   if (!adminEmail || !adminPassword) {
+//     return next();
+//   }
 
-  const adminUser = {
-    email: adminEmail,
-    password: bcrypt.hashSync(adminPassword, 10),
-    roles: { admin: true },
-  };
+//   const adminUser = {
+//     email: adminEmail,
+//     password: bcrypt.hashSync(adminPassword, 10),
+//     roles: { admin: true },
+//   };
 
-  // TODO: crear usuaria admin
-  const userFind = User.findOne({ email: adminEmail });
+//   // TODO: crear usuaria admin
+//   const userFind = User.findOne({ email: adminEmail });
 
-  userFind
-    .then((doc) => {
-    if (doc) {
-        console.info('El usuario ya existe en la base de datos');
-        return next(200);
-    }
+//   userFind
+//     .then((doc) => {
+//     if (doc) {
+//         console.info('El usuario ya existe en la base de datos');
+//         return next(200);
+//     }
 
-      const newUser = new User(adminUser);
-      newUser.save();
-      console.info('El usuario ha sido creado');
-     })
-    .catch((err) => {
-      if (err !== 200) {
-        console.info('Ha ocurrido un error', err);
-      }
-    });
-  next();
-};
+//       const newUser = new User(adminUser);
+//       newUser.save();
+//       console.info('El usuario ha sido creado');
+//      })
+//     .catch((err) => {
+//       if (err !== 200) {
+//         console.info('Ha ocurrido un error', err);
+//       }
+//     });
+//   next();
+// };
 
 /** @module users */
 module.exports = (app, next) => {
+  console.log('user routes');
   /**
    * @name GET /users
    * @description Lista usuarias
@@ -93,7 +88,7 @@ module.exports = (app, next) => {
    */
   // app.get('/users/:uid', requireAuth, (req, resp) => {
   // });
-  app.get('/users/:uid', requireAuth, getOneUser);
+  // app.get('/users/:uid', requireAuth, getOneUser);
   /**
    * @name POST /users
    * @description Crea una usuaria
@@ -115,7 +110,7 @@ module.exports = (app, next) => {
    */
   // app.post('/users', requireAdmin, (req, resp, next) => {
   // });
-  app.post('/users', requireAdmin, newUser);
+  // app.post('/users', requireAdmin, newUser);
   /**
    * @name PUT /users
    * @description Modifica una usuaria
@@ -140,8 +135,7 @@ module.exports = (app, next) => {
    */
   // app.put('/users/:uid', requireAuth, (req, resp, next) => {
   // });
-
-  app.put('/users/:uid', requireAuth, updateUser);
+  // app.put('/users/:uid', requireAuth, updateUser);
   /**
    * @name DELETE /users
    * @description Elimina una usuaria
@@ -160,7 +154,7 @@ module.exports = (app, next) => {
    */
   // app.delete('/users/:uid', requireAuth, (req, resp, next) => {
   // });
-  app.delete('/users/:uid', requireAuth, deleteOneUser);
-
-  initAdminUser(app, next);
+  // app.delete('/users/:uid', requireAuth, deleteOneUser);
+  // initAdminUser(app, next);
+  next();
 };
