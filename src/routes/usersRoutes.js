@@ -8,7 +8,7 @@
 //   requireAdmin,
 // } = require('../middleware/auth');
 
-const { getUsers } = require('../controller/users');
+const { getUsers } = require('../controller/usersController');
 
 // const initAdminUser = (app, next) => {
 //   const { adminEmail, adminPassword } = app.get('config');

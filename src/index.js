@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const express = require('express');
 
-const routes = require('./routes');
+const routes = require('./routes/indexRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
