@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 // const bcrypt = require('bcrypt');
 // eslint-disable-next-line import/extensions
+const client = require('../dbconfig');
 
 // GET '/users'
 const getUsers = async (req, res) => {

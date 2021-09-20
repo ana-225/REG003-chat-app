@@ -1,5 +1,5 @@
 // const auth = require('./auth');
-const users = require('./users');
+const users = require('./usersRoutes');
 
 const root = (app, next) => {
   app.get('/', (req, res) => res.send('Chat App!'));
