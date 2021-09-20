@@ -1,8 +1,8 @@
 // const auth = require('./auth');
-// const users = require('./users');
+const users = require('./users');
 
 const root = (app, next) => {
-  app.get('/', (req, res) => res.send('Hello Anis!'));
+  app.get('/', (req, res) => res.send('Chat App!'));
   app.all('*', (req, resp, nextAll) => nextAll(404));
   return next();
 };
@@ -21,4 +21,4 @@ const register = (app, routes, cb) => {
   });
 };
 
-module.exports = (app, next) => register(app, [root], next);
+module.exports = (app, next) => register(app, [users, root], next);
