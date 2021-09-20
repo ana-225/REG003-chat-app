@@ -46,7 +46,6 @@ const { getUsers } = require('../controller/users');
 
 /** @module users */
 module.exports = (app, next) => {
-  console.log('user routes');
   /**
    * @name GET /users
    * @description Lista usuarias
