@@ -18,6 +18,15 @@ const createUsers = async (req, res, next) => {
     if (!id || !name || !email) {
       return next(400);
     }
+    // issue problema para verificar si usuario existe
+
+    // const userFound = await client.query(
+    //   'SELECT "userEmail" FROM public.users WHERE "userEmail" = $1',
+    //   [email]
+    // );
+    // if (userFound) {
+    //   return res.send('user already exists');
+    // }
     await client.query(
       'INSERT INTO public.users ( "userId", "userName", "userEmail") VALUES ($1, $2, $3)',
       [id, name, email]
