@@ -19,21 +19,23 @@ const createUsers = async (req, res, next) => {
       return next(400);
     }
     // issue problema para verificar si usuario existe
-
-    // const userFound = await client.query(
-    //   'SELECT "userEmail" FROM public.users WHERE "userEmail" = $1',
-    //   [email]
-    // );
-    // if (userFound) {
-    //   return res.send('user already exists');
-    // }
-    await client.query(
-      'INSERT INTO public.users ( "userId", "userName", "userEmail") VALUES ($1, $2, $3)',
-      [id, name, email]
+    console.log(email);
+    const userFound = await client.query(
+      'SELECT "userEmail" FROM public.users WHERE "userEmail" = $1',
+      [email]
     );
+    console.log(userFound);
+    if (userFound.rows.length) {
+      return next(403);
+      // ('user already exists');
+    }
+    // await client.query(
+    //   'INSERT INTO public.users ( "userId", "userName", "userEmail") VALUES ($1, $2, $3)',
+    //   [id, name, email]
+    // );
     return res.status(200).send('user created successfully');
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 module.exports = {
