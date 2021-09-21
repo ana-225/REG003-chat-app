@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
-
+const errorHandler = require('./middleware/errors');
 const routes = require('./routes/indexRoutes');
 
 const app = express();
@@ -16,7 +16,7 @@ routes(app, (err) => {
   if (err) {
     throw err;
   }
-
+  app.use(errorHandler);
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });

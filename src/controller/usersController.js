@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
-// const bcrypt = require('bcrypt');
-// eslint-disable-next-line import/extensions
+const bcrypt = require('bcrypt');
+const { isAValidEmail, isAWeakPassword } = require('../utils/utils');
 const client = require('../dbconfig');
 
 // GET '/users'
@@ -14,15 +14,24 @@ const getUsers = async (req, res) => {
 // POST '/users'
 const createUsers = async (req, res, next) => {
   try {
-    const { id, name, email } = req.body;
-    if (!id || !name || !email) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
       return next(400);
     }
-    // issue problema para verificar si usuario existe
-    console.log(email);
+    if (isAWeakPassword(password) || !isAValidEmail(email)) return next(400);
+    const newUserPassword = bcrypt.hashSync(req.body.password, 10);
+
+    // check if user already exists on db
     const userFound = await client.query(
       'SELECT "userEmail" FROM public.users WHERE "userEmail" = $1',
       [email]
+    );
+    if (userFound.rows.length) {
+      return res.send('user already exists');
+    }
+    await client.query(
+      'INSERT INTO public.users ( "userName", "userEmail", "userPassword") VALUES ($1, $2, $3)',
+      [name, email, newUserPassword]
     );
     console.log(userFound);
     if (userFound.rows.length) {

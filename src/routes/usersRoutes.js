@@ -1,48 +1,6 @@
 /* eslint-disable no-console */
-// const bcrypt = require('bcrypt');
-
-// const User = require('../models/user');
-
-// const {
-//   requireAuth,
-//   requireAdmin,
-// } = require('../middleware/auth');
 
 const { getUsers, createUsers } = require('../controller/usersController');
-
-// const initAdminUser = (app, next) => {
-//   const { adminEmail, adminPassword } = app.get('config');
-//   if (!adminEmail || !adminPassword) {
-//     return next();
-//   }
-
-//   const adminUser = {
-//     email: adminEmail,
-//     password: bcrypt.hashSync(adminPassword, 10),
-//     roles: { admin: true },
-//   };
-
-//   // TODO: crear usuaria admin
-//   const userFind = User.findOne({ email: adminEmail });
-
-//   userFind
-//     .then((doc) => {
-//     if (doc) {
-//         console.info('El usuario ya existe en la base de datos');
-//         return next(200);
-//     }
-
-//       const newUser = new User(adminUser);
-//       newUser.save();
-//       console.info('El usuario ha sido creado');
-//      })
-//     .catch((err) => {
-//       if (err !== 200) {
-//         console.info('Ha ocurrido un error', err);
-//       }
-//     });
-//   next();
-// };
 
 /** @module users */
 module.exports = (app, next) => {
@@ -67,7 +25,6 @@ module.exports = (app, next) => {
    * @code {401} si no hay cabecera de autenticación
    * @code {403} si no es ni admin
    */
-  // app.get('/users', requireAdmin, getUsers);
   app.get('/users', getUsers);
   /**
    * @name GET /users/:uid
