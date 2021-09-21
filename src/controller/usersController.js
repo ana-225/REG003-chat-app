@@ -33,6 +33,15 @@ const createUsers = async (req, res, next) => {
       'INSERT INTO public.users ( "userName", "userEmail", "userPassword") VALUES ($1, $2, $3)',
       [name, email, newUserPassword]
     );
+    console.log(userFound);
+    if (userFound.rows.length) {
+      return next(403);
+      // ('user already exists');
+    }
+    // await client.query(
+    //   'INSERT INTO public.users ( "userId", "userName", "userEmail") VALUES ($1, $2, $3)',
+    //   [id, name, email]
+    // );
     return res.status(200).send('user created successfully');
   } catch (error) {
     return next(error);
