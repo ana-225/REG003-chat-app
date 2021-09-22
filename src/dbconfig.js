@@ -9,7 +9,6 @@ const config = parse(dbUrl);
 const client = new Client(config);
 client.connect((err) => {
   if (err) {
-    console.log(1, err);
     throw err;
   } else {
     console.log('BD conectada');
