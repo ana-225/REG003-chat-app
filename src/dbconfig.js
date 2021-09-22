@@ -6,8 +6,7 @@ const { dbUrl } = require('../config');
 const config = parse(dbUrl);
 
 // conexión a base de datos
-const client = new Client({ config });
-
+const client = new Client(config);
 client.connect((err) => {
   if (err) {
     console.log(1, err);
