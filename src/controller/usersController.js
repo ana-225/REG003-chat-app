@@ -3,6 +3,7 @@
 /* eslint-disable no-console */
 const bcrypt = require('bcrypt');
 const { isAValidEmail, isAWeakPassword } = require('../utils/utils');
+// const pool = require('../dbconfig');
 const client = require('../dbconfig');
 
 // GET '/users'
@@ -38,7 +39,7 @@ const createUsers = async (req, res, next) => {
       return next(403);
       // ('user already exists');
     }
-    // await client.query(
+    // await pool.query(
     //   'INSERT INTO public.users ( "userId", "userName", "userEmail") VALUES ($1, $2, $3)',
     //   [id, name, email]
     // );
