@@ -7,7 +7,6 @@ const config = parse(dbUrl);
 
 // conexión a base de datos
 const client = new Client(config);
-
 client.connect((err) => {
   if (err) {
     throw err;
