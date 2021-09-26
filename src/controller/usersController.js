@@ -4,11 +4,11 @@
 const bcrypt = require('bcrypt');
 const { isAValidEmail, isAWeakPassword } = require('../utils/utils');
 // const pool = require('../dbconfig');
-const client = require('../dbconfig');
+const pool = require('../dbconfig');
 
 // GET '/users'
 const getUsers = async (req, res) => {
-  const response = await client.query('SELECT * FROM public.users');
+  const response = await pool.query('SELECT * FROM public.users');
   res.status(200).json(response.rows);
 };
 
@@ -23,14 +23,14 @@ const createUsers = async (req, res, next) => {
     const newUserPassword = bcrypt.hashSync(req.body.password, 10);
 
     // check if user already exists on db
-    const userFound = await client.query(
+    const userFound = await pool.query(
       'SELECT "userEmail" FROM public.users WHERE "userEmail" = $1',
       [email]
     );
     if (userFound.rows.length) {
       return res.send('user already exists');
     }
-    await client.query(
+    await pool.query(
       'INSERT INTO public.users ( "userName", "userEmail", "userPassword") VALUES ($1, $2, $3)',
       [name, email, newUserPassword]
     );
