@@ -1,15 +1,12 @@
 const pool = require('../dbconfig');
 
 const getMessages = (request, response) => {
-  pool.query(
-    'SELECT * FROM messages ORDER BY id DESC LIMIT 10',
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
+  pool.query('SELECT * FROM messages ORDER BY id ASC', (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    response.status(200).json(results.rows);
+  });
 };
 const createMessage = (request, response) => {
   const { text, username } = request.body;
@@ -26,15 +23,12 @@ const createMessage = (request, response) => {
 };
 const getSocketMessages = () => {
   return new Promise((resolve) => {
-    pool.query(
-      'SELECT * FROM messages ORDER BY id DESC LIMIT 10',
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        resolve(results.rows);
+    pool.query('SELECT * FROM messages ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error;
       }
-    );
+      resolve(results.rows);
+    });
   });
 };
 const createSocketMessage = (message) => {
