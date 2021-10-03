@@ -1,6 +1,7 @@
 // const auth = require('./auth');
 const users = require('./usersRoutes');
 const messages = require('./messagesRoutes');
+const auth = require('./authRoutes');
 
 const root = (app, next) => {
   app.get('/', (req, res) => res.send('Chat App!'));
@@ -22,4 +23,5 @@ const register = (app, routes, cb) => {
   });
 };
 
-module.exports = (app, next) => register(app, [users, messages, root], next);
+module.exports = (app, next) =>
+  register(app, [auth, users, messages, root], next);

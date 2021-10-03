@@ -1,43 +1,46 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const config = require('../config');
-const User = require('../models/user');
+const config = require('../../config');
+const pool = require('../dbconfig');
 
 const { secret } = config;
 
-module.exports.authenticateUser = async (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
     return next(400);
   }
-
-  const userFound = User.findOne({ email });
-  userFound.then((result) => {
-    if (!result) {
-      return res.status(404)({ message: 'User not found' });
-    }
-    bcrypt.compare(password, result.password, (err, data) => {
+  const userFound = await pool.query(
+    'SELECT * FROM public.users WHERE "userEmail" = $1',
+    [email]
+  );
+  if (!userFound.rows.length) {
+    return res.status(404).json({ message: 'User not found' });
+    // eslint-disable-next-line no-else-return
+  } else {
+    const resultPassword = userFound.rows[0].userPassword;
+    bcrypt.compare(password, resultPassword, (err, data) => {
       if (err) console.info(err);
       else if (!data) {
         return res.status(404).json({ message: 'Incorrect Password' });
       }
-
       jwt.sign(
         {
-          uid: result._id,
-          email: result.email,
-          roles: result.roles,
+          uid: userFound.rows[0].userId,
+          email: userFound.rows[0].userEmail,
+          name: userFound.rows[0].userName,
         },
         secret,
         {
-          expiresIn: 3600,
+          expiresIn: 36000,
         },
-        (err, token) => {
-          if (err) console.error(err);
+        (error, token) => {
+          if (error) console.error(err);
           return res.status(200).json({ token });
-        },
+        }
       );
     });
-  });
+  }
 };
+module.exports = { authenticateUser };
