@@ -17,8 +17,8 @@ const {
   createSocketMessage,
 } = require('./controller/messageController');
 
-const port = process.env.PORT || 3000;
-const socketPort = 8000;
+const port = process.env.PORT || 8000;
+// const socketPort = 8000;
 
 // middlewares
 app.use(cors());
@@ -55,7 +55,7 @@ routes(app, (err) => {
     });
   });
 
-  server.listen(socketPort, () => {
-    console.log(`App listening at http://localhost:${socketPort}`);
+  server.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
   });
 });
