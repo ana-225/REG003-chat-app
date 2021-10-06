@@ -8,9 +8,8 @@ const { dbUrl } = require('../config');
 //   'postgres://dnlhmiogrxigiy:d5324e320d3414e761264ed46bc7395ed8b72bbf2ed1eaa45d443aa7e1fe250b@ec2-3-219-111-26.compute-1.amazonaws.com:5432/df2lc0ku3mnad4'
 // );
 const config = parse(dbUrl);
-// const config = parse(dbUrl);
 
-const connector = { ...config, ssl: { rejectUnauthorized: false } };
+// const connector = { ...config, ssl: { rejectUnauthorized: false } };
 console.log(config);
 // const client = new Client({
 //   user: 'dnlhmiogrxigiy',
@@ -24,7 +23,7 @@ console.log(config);
 // });
 
 // conexión a base de datos
-const pool = new Pool(connector);
+const pool = new Pool(config);
 pool.connect((err) => {
   if (err) {
     throw err;
