@@ -11,6 +11,10 @@ const io = require('socket.io')(server, {
   },
 });
 const errorHandler = require('./middleware/errors');
+const authMiddleware = require('./middleware/auth');
+const config = require('../config');
+
+const { secret } = config;
 const routes = require('./routes/indexRoutes');
 const {
   getSocketMessages,
@@ -25,13 +29,15 @@ app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(authMiddleware(secret));
+app.use(errorHandler);
 
 // Link to Routes
 routes(app, (err) => {
   if (err) {
     throw err;
   }
-  app.use(errorHandler);
+
   // sends out the 10 most recent messages from recent to old
   const emitMostRecentMessges = () => {
     getSocketMessages()
