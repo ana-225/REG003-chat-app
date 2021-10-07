@@ -4,6 +4,7 @@ const pool = require('../dbconfig');
 
 module.exports = (secret) => (req, resp, next) => {
   const { authorization } = req.headers;
+
   if (!authorization) {
     return next();
   }
@@ -24,15 +25,12 @@ module.exports = (secret) => (req, resp, next) => {
       [decodedToken.uid]
     );
 
-    // const userFind = User.findById(decodedToken.uid);
-
     userFound
       .then((doc) => {
         if (!doc) {
           return next(404);
         }
         req.authToken = decodedToken;
-        console.log(req.authToken);
 
         return next();
       })
@@ -40,16 +38,18 @@ module.exports = (secret) => (req, resp, next) => {
   });
 };
 
-module.exports.isAuthenticated = (req) =>
+module.exports.isAuthenticated = (req) => {
   // TODO: decidir por la informacion del request si la usuaria esta autenticada
-  req.authToken || false;
+  return req.authToken || false;
+};
 
 // module.exports.isAdmin = (req) =>
 //   // TODO: decidir por la informacion del request si la usuaria es admin
 //   req.authToken.roles.admin || false;
 
-module.exports.requireAuth = (req, resp, next) =>
-  !module.exports.isAuthenticated(req) ? next(401) : next();
+module.exports.requireAuth = (req, resp, next) => {
+  return !module.exports.isAuthenticated(req) ? next(401) : next();
+};
 
 // module.exports.requireAdmin = (req, resp, next) =>
 //   // eslint-disable-next-line no-nested-ternary
