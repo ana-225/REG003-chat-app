@@ -29,14 +29,15 @@ app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(authMiddleware(secret));
+app.use(errorHandler);
 
 // Link to Routes
 routes(app, (err) => {
   if (err) {
     throw err;
   }
-  app.use(errorHandler);
-  app.use(authMiddleware(secret));
+
   // sends out the 10 most recent messages from recent to old
   const emitMostRecentMessges = () => {
     getSocketMessages()
