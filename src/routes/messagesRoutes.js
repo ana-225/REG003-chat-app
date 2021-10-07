@@ -7,6 +7,6 @@ const { requireAuth } = require('../middleware/auth');
 /** @module messages */
 module.exports = (app, next) => {
   app.get('/messages', requireAuth, getMessages);
-  app.post('/messages', createMessage);
+  app.post('/messages', requireAuth, createMessage);
   next();
 };
