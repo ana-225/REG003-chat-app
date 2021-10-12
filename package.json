@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest test/users.test.js",
     "db-up": "docker-compose up -d",
     "db-status": "docker-compose ps",
     "db-down": "docker-compose down"
@@ -27,6 +27,8 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-md": "^1.0.19",
     "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2"
+    "jest": "^27.2.5",
+    "prettier": "^2.3.2",
+    "supertest": "^6.1.6"
   }
 }
