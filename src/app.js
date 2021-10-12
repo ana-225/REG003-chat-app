@@ -65,3 +65,5 @@ routes(app, (err) => {
     console.log(`App listening at http://localhost:${port}`);
   });
 });
+
+module.exports = app;

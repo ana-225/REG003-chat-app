@@ -28,7 +28,7 @@ const createUsers = async (req, res, next) => {
       [email]
     );
     if (userFound.rows.length) {
-      return res.send('user already exists');
+      return res.status(204).send('user already exists');
     }
     await pool.query(
       'INSERT INTO public.users ( "userName", "userEmail", "userPassword") VALUES ($1, $2, $3)',
